@@ -1,10 +1,6 @@
-# SnapshotTest [![travis][travis-image]][travis-url] [![pypi][pypi-image]][pypi-url]
+# SnapshotTest - forked
 
-[travis-image]: https://img.shields.io/travis/syrusakbary/snapshottest.svg?style=flat
-[travis-url]: https://travis-ci.org/syrusakbary/snapshottest
-[pypi-image]: https://img.shields.io/pypi/v/snapshottest.svg?style=flat
-[pypi-url]: https://pypi.python.org/pypi/snapshottest
-
+> This repository contains forked version designed to add some features
 
 Snapshot testing is a way to test your APIs without writing actual test cases.
 
@@ -14,7 +10,7 @@ Snapshot testing is a way to test your APIs without writing actual test cases.
 
 ## Installation
 
-    $ pip install snapshottest
+    $ pip install git+https://github.com/kam193/snapshottest
 
 
 ## Usage with unittest/nose
@@ -135,7 +131,3 @@ Instead of rendering the graphical UI, which would require building the entire a
 
 [MIT License](https://github.com/syrusakbary/snapshottest/blob/master/LICENSE)
 
-[![coveralls][coveralls-image]][coveralls-url]
-
-[coveralls-image]: https://coveralls.io/repos/syrusakbary/snapshottest/badge.svg?branch=master&service=github
-[coveralls-url]: https://coveralls.io/github/syrusakbary/snapshottest?branch=master
