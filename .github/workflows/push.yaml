@@ -1,0 +1,52 @@
+name: Test and build
+
+on:
+  push:
+  release:
+    types:
+      - published
+
+jobs:
+  style_check:
+    name: Check code style
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Python 3.8
+        uses: actions/setup-python@v1
+        with:
+          python-version: "3.8"
+      - name: Cache pip
+        uses: actions/cache@v1
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements*.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+      - name: Install tools
+        run: make install-tools
+      - name: Lint
+        run: make lint
+      - name: format
+        run: make format
+
+  unittests:
+    name: Run unittests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Python 3.8
+        uses: actions/setup-python@v1
+        with:
+          python-version: "3.8"
+      - name: Cache pip
+        uses: actions/cache@v1
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements*.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+      - name: Install tools
+        run: make install
+      - name: Run unittests
+        run: make test
