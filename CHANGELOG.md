@@ -1,5 +1,13 @@
 # Changelog
 
+## [In progress]
+
+### New features
+- Callbacks allow modifying snapshots before writing 
+
+### Breaking changes
+- Support for Python 3.8+ only
+
 ## 1.0.0a0
 
 ### BREAKING CHANGES
