@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
-import pytest
+import unittest.mock
 from math import isnan
 
-from snapshottest.formatter import Formatter
+import pytest
 
-import unittest.mock
+from snapshottest.formatter import Formatter
 
 
 @pytest.mark.parametrize(

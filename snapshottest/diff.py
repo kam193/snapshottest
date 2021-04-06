@@ -1,8 +1,8 @@
-from termcolor import colored
 from fastdiff import compare
+from termcolor import colored
 
-from .sorted_dict import SortedDict
 from .formatter import Formatter
+from .sorted_dict import SortedDict
 
 
 def format_line(line):

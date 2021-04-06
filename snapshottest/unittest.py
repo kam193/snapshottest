@@ -1,8 +1,8 @@
-import unittest
 import inspect
+import unittest
 
-from .module import SnapshotModule, SnapshotTest
 from .diff import PrettyDiff
+from .module import SnapshotModule, SnapshotTest
 from .reporting import diff_report
 
 

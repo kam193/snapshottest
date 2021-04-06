@@ -1,9 +1,10 @@
-import pytest
 import re
 
-from .module import SnapshotModule, SnapshotTest
+import pytest
+
 from .diff import PrettyDiff
-from .reporting import reporting_lines, diff_report
+from .module import SnapshotModule, SnapshotTest
+from .reporting import diff_report, reporting_lines
 
 
 def pytest_addoption(parser):

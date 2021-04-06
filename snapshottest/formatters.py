@@ -1,8 +1,8 @@
 import math
 from collections import defaultdict
 
-from .sorted_dict import SortedDict
 from .generic_repr import GenericRepr
+from .sorted_dict import SortedDict
 
 
 class BaseFormatter(object):

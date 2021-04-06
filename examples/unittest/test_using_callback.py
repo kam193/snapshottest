@@ -1,6 +1,7 @@
 import unittest
 
 import black
+
 import snapshottest
 
 

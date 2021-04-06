@@ -1,10 +1,11 @@
-from django.test import TestCase as dTestCase
 from django.test import SimpleTestCase as dSimpleTestCase
+from django.test import TestCase as dTestCase
 from django.test.runner import DiscoverRunner
 
 from snapshottest.reporting import reporting_lines
-from .unittest import TestCase as uTestCase
+
 from .module import SnapshotModule
+from .unittest import TestCase as uTestCase
 
 
 class TestRunnerMixin(object):

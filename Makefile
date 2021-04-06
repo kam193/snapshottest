@@ -9,7 +9,7 @@ install:
 
 .PHONY: install-tools
 install-tools:
-	pip install flake8 black==20.8b1
+	pip install flake8 black==20.8b1 isort==5.8.0
 
 .PHONY: test
 test:
@@ -32,10 +32,12 @@ lint:
 .PHONY: format
 format:
 	black --check setup.py snapshottest tests examples --exclude 'snapshots\/snap_.*.py$$'
+	isort . --check
 
 .PHONY: format-fix
 format-fix:
 	black setup.py snapshottest tests examples --exclude 'snapshots\/snap_.*.py$$'
+	isort .
 
 .PHONY: clean
 clean:

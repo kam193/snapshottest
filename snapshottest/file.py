@@ -1,6 +1,6 @@
+import filecmp
 import os
 import shutil
-import filecmp
 
 from .formatter import Formatter
 from .formatters import BaseFormatter

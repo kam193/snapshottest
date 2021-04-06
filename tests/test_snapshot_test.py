@@ -1,5 +1,6 @@
-import pytest
 from collections import OrderedDict
+
+import pytest
 
 from snapshottest.module import SnapshotModule, SnapshotTest
 

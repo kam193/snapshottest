@@ -1,4 +1,5 @@
 import os
+
 from termcolor import colored
 
 from .module import SnapshotModule

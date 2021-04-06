@@ -1,13 +1,12 @@
 import codecs
-import os
 import imp
-from collections import defaultdict
 import logging
+import os
+from collections import defaultdict
 
-from .snapshot import Snapshot
-from .formatter import Formatter
 from .error import SnapshotNotFound
-
+from .formatter import Formatter
+from .snapshot import Snapshot
 
 logger = logging.getLogger(__name__)
 

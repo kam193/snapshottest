@@ -1,5 +1,6 @@
-import pytest
 import os
+
+import pytest
 
 from snapshottest import Snapshot
 from snapshottest.module import SnapshotModule
