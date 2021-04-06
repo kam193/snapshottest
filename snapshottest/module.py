@@ -1,5 +1,4 @@
 import codecs
-import errno
 import os
 import imp
 from collections import defaultdict
@@ -31,12 +30,8 @@ class SnapshotModule(object):
     def load_snapshots(self):
         try:
             source = imp.load_source(self.module, self.filepath)
-        # except FileNotFoundError:  # Python 3
-        except (IOError, OSError) as err:
-            if err.errno == errno.ENOENT:
-                return Snapshot()
-            else:
-                raise
+        except FileNotFoundError:
+            return Snapshot()
         else:
             assert isinstance(source.snapshots, Snapshot)
             return source.snapshots
@@ -141,10 +136,7 @@ class SnapshotModule(object):
             return
 
         # Create the snapshot dir in case doesn't exist
-        try:
-            os.makedirs(self.snapshot_dir, 0o0700)
-        except (IOError, OSError):
-            pass
+        os.makedirs(self.snapshot_dir, 0o0700, exist_ok=True)
 
         # Create __init__.py in case doesn't exist
         open(os.path.join(self.snapshot_dir, "__init__.py"), "a").close()

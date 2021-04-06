@@ -89,4 +89,3 @@ def pytest_terminal_summary(terminalreporter):
 @pytest.mark.trylast
 def pytest_configure(config):
     config._snapshotsession = SnapshotSession(config)
-    # config.pluginmanager.register(bs, "snapshottest")

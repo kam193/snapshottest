@@ -62,11 +62,8 @@ class TestCase(unittest.TestCase):
         super(TestCase, cls).setUpClass()
 
     def comparePrettyDifs(self, obj1, obj2, msg):
-        # self
-        # assert obj1 == obj2
         if not (obj1 == obj2):
             raise self.failureException("\n".join(diff_report(obj1, obj2)))
-        #     raise self.failureException("DIFF")
 
     @classmethod
     def tearDownClass(cls):
@@ -77,7 +74,6 @@ class TestCase(unittest.TestCase):
 
     def setUp(self):
         """Do some custom setup"""
-        # print dir(self.__module__)
         self.addTypeEqualityFunc(PrettyDiff, self.comparePrettyDifs)
         self._snapshot = UnitTestSnapshotTest(
             test_class=self.__class__,
@@ -91,7 +87,6 @@ class TestCase(unittest.TestCase):
 
     def tearDown(self):
         """Do some custom setup"""
-        # print dir(self.__module__)
         SnapshotTest._current_tester = None
         self._snapshot = None
 

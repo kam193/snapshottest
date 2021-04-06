@@ -1,4 +1,5 @@
 import pytest
+import os
 
 from snapshottest import Snapshot
 from snapshottest.module import SnapshotModule
@@ -25,6 +26,41 @@ class TestSnapshotModuleLoading(object):
         module = SnapshotModule("tests.snapshots.snap_error", str(filepath))
         with pytest.raises(SyntaxError):
             module.load_snapshots()
+
+
+class TestSnapshotModuleSaving:
+    def test_save_file_and_init_not_exists(self, tmpdir):
+        filepath = tmpdir.join("new_dir", "snap_new.py")
+        assert not filepath.check()
+        module = SnapshotModule("tests.snapshots.snap_new", str(filepath))
+        module["test_snapshot"] = "new value"
+
+        module.save()
+
+        assert filepath.check()
+        assert tmpdir.join("new_dir", "__init__.py").check()
+
+    def test_save_file_not_exists(self, tmpdir):
+        filepath = tmpdir.join("a_dir", "snap_new.py")
+        os.mkdir(str(tmpdir.join("a_dir")))
+        module = SnapshotModule("tests.snapshots.snap_new", str(filepath))
+        module["test_snapshot"] = "new value"
+
+        module.save()
+
+        assert filepath.check()
+        assert tmpdir.join("a_dir", "__init__.py").check()
+
+    def test_save_and_load_snapshot(self, tmpdir):
+        filepath = tmpdir.join("snap_new.py")
+        module = SnapshotModule("tests.snapshots.snap_new", str(filepath))
+        module["test_snapshot"] = "new_value"
+        module.save()
+
+        file_moved = tmpdir.join("snap_moved.py")
+        os.rename(str(filepath), str(file_moved))
+        module_2 = SnapshotModule("tests.snapshots.snap_moved", str(file_moved))
+        assert module_2["test_snapshot"] == "new_value"
 
 
 class TestSnapshotModuleBeforeWriteCallback(object):
