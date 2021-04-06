@@ -47,7 +47,7 @@ def test_file(snapshot, tmpdir):
     for storage as text inside the snap_***.py file.
     """
     temp_file = tmpdir.join("example.txt")
-    temp_file.write("Hello, world!")
+    temp_file.write("Hello, world!\n")
     snapshot.assert_match(FileSnapshot(str(temp_file)))
 
 
@@ -57,11 +57,11 @@ def test_multiple_files(snapshot, tmpdir):
     snapshots folder.
     """
     temp_file1 = tmpdir.join("example1.txt")
-    temp_file1.write("Hello, world 1!")
+    temp_file1.write("Hello, world 1!\n")
     snapshot.assert_match(FileSnapshot(str(temp_file1)))
 
     temp_file1 = tmpdir.join("example2.txt")
-    temp_file1.write("Hello, world 2!")
+    temp_file1.write("Hello, world 2!\n")
     snapshot.assert_match(FileSnapshot(str(temp_file1)))
 
 
