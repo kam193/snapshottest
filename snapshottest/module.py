@@ -3,6 +3,9 @@ import imp
 import logging
 import os
 from collections import defaultdict
+from configparser import ConfigParser
+
+from snapshottest.config import get_global_config
 
 from .error import SnapshotNotFound
 from .formatter import Formatter
@@ -15,9 +18,10 @@ class SnapshotModule(object):
     _snapshot_modules = {}
     _before_write_callbacks = []
 
-    def __init__(self, module, filepath):
+    def __init__(self, module, filepath, config=None):
         self._original_snapshot = None
         self._snapshots = None
+        self._config = config
         self.module = module
         self.filepath = filepath
         self.imports = defaultdict(set)
@@ -202,6 +206,12 @@ snapshots = Snapshot()
     def clear_before_file_write_callbacks(cls):
         cls._before_write_callbacks.clear()
 
+    @property
+    def config(self) -> ConfigParser:
+        if not self._config:
+            self._config = get_global_config()
+        return self._config["snapshottest"]
+
 
 class SnapshotTest(object):
     _current_tester = None
@@ -259,7 +269,13 @@ class SnapshotTest(object):
             try:
                 prev_snapshot = self.module[self.test_name]
             except SnapshotNotFound:
-                self.store(value)  # first time this test has been seen
+                if self.module.config.getboolean("allow_create"):
+                    self.store(value)  # first time this test has been seen
+                else:
+                    self.fail()
+                    raise AssertionError(
+                        f"The snapshot for {self.test_name} doesn't exist."
+                    )
             else:
                 try:
                     self.assert_value_matches_snapshot(value, prev_snapshot)

@@ -52,11 +52,21 @@ def assert_snapshot_test_failed(snapshot_test, test_name=None):
     assert test_name in snapshot_test.module.failed_snapshots
 
 
+@pytest.fixture
+def get_snapshot_test(tmpdir):
+    def _inner(config):
+        filepath = tmpdir.join("snap_mocked.py")
+        module = SnapshotModule(
+            "tests.snapshots.snap_mocked", str(filepath), config=config
+        )
+        return GenericSnapshotTest(module)
+
+    return _inner
+
+
 @pytest.fixture(name="snapshot_test")
-def fixture_snapshot_test(tmpdir):
-    filepath = tmpdir.join("snap_mocked.py")
-    module = SnapshotModule("tests.snapshots.snap_mocked", str(filepath))
-    return GenericSnapshotTest(module)
+def fixture_snapshot_test(tmpdir, get_snapshot_test, make_config):
+    return get_snapshot_test(make_config())
 
 
 SNAPSHOTABLE_VALUES = [
@@ -122,3 +132,11 @@ def test_snapshot_does_not_match_other_values(snapshot_test, value, other_value)
     with pytest.raises(AssertionError):
         snapshot_test.assert_match(other_value)
     assert_snapshot_test_failed(snapshot_test)
+
+
+def test_snapshot_with_disabled_creation(get_snapshot_test, make_config):
+    config = make_config({"allow_create": False})
+    snapshot_test: GenericSnapshotTest = get_snapshot_test(config)
+
+    with pytest.raises(AssertionError):
+        snapshot_test.assert_match("a value")

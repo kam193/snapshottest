@@ -1,8 +1,10 @@
+import imp
 import os
 
 import pytest
 
-from snapshottest import Snapshot
+from snapshottest import Snapshot, module
+from snapshottest.config import get_global_config
 from snapshottest.module import SnapshotModule
 
 
@@ -104,3 +106,13 @@ class TestSnapshotModuleBeforeWriteCallback(object):
 
         assert "# a comment" not in result
         assert "my_test" in result
+
+
+class TestSnapshotModuleConfig:
+    def test_loads_default_config(self):
+        module = SnapshotModule("a", "b")
+        assert module.config is get_global_config()["snapshottest"]
+
+    def test_load_passed_config(self, make_config):
+        module = SnapshotModule("", "", make_config({"test_config": "value"}))
+        assert module.config["test_config"] == "value"
