@@ -4,6 +4,9 @@
 
 ### New features
 - Callbacks allow modifying snapshots before writing
+- PoC: configuring via config file
+- Optional fail on creating new snapshot
+- PoC: Optional fail if unvisited snapshots left
 
 ### Breaking changes
 - Support for Python 3.8+ only
