@@ -6,8 +6,6 @@ from snapshottest.config import DEFAULTS
 
 pytest_plugins = "pytester"
 
-CONFIG_DEFAULTS = {"allow_create": True, "fail_on_unused": False}
-
 
 @fixture
 def make_config():

@@ -4,10 +4,11 @@ import logging
 import os
 from collections import defaultdict
 from configparser import ConfigParser
+from typing import List
 
 from snapshottest.config import get_global_config
 
-from .error import SnapshotNotFound
+from .error import SnapshotError, SnapshotNotFound
 from .formatter import Formatter
 from .snapshot import Snapshot
 
@@ -62,7 +63,7 @@ class SnapshotModule(object):
         return unvisited_snapshots, unvisited_modules
 
     @classmethod
-    def get_modules(cls):
+    def get_modules(cls) -> List["SnapshotModule"]:
         return SnapshotModule._snapshot_modules.values()
 
     @classmethod
@@ -132,6 +133,10 @@ class SnapshotModule(object):
     @property
     def snapshot_dir(self):
         return os.path.dirname(self.filepath)
+
+    def validate_before_close(self):
+        if not self.config.getboolean("allow_unvisited") and self.unvisited_snapshots:
+            raise SnapshotError("There are unvisited snapshots")
 
     def save(self):
         if self.original_snapshot == self.snapshots:

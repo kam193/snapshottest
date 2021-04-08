@@ -44,8 +44,9 @@ class SnapshotTestPlugin(Plugin):
             cls.snapshot_should_update = self.snapshot_update
 
     def afterContext(self):
-        if self.snapshot_update:
-            for module in SnapshotModule.get_modules():
+        for module in SnapshotModule.get_modules():
+            module.validate_before_close()
+            if self.snapshot_update:
                 module.delete_unvisited()
                 module.save()
 

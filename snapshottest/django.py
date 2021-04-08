@@ -32,8 +32,10 @@ class TestRunnerMixin(object):
             test_labels=test_labels, extra_tests=extra_tests, **kwargs
         )
         self.print_report()
-        if TestCase.snapshot_should_update:
-            for module in SnapshotModule.get_modules():
+
+        for module in SnapshotModule.get_modules():
+            module.validate_before_close()
+            if TestCase.snapshot_should_update:
                 module.delete_unvisited()
                 module.save()
 

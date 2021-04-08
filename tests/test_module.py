@@ -5,6 +5,7 @@ import pytest
 
 from snapshottest import Snapshot, module
 from snapshottest.config import get_global_config
+from snapshottest.error import SnapshotError
 from snapshottest.module import SnapshotModule
 
 
@@ -64,6 +65,19 @@ class TestSnapshotModuleSaving:
         os.rename(str(filepath), str(file_moved))
         module_2 = SnapshotModule("tests.snapshots.snap_moved", str(file_moved))
         assert module_2["test_snapshot"] == "new_value"
+
+    def test_fail_on_validating_before_close_when_unvisited_disabled(
+        self, tmpdir, make_config
+    ):
+        filepath = tmpdir.join("snap_new.py")
+        config = make_config({"allow_unvisited": False})
+        module = SnapshotModule(
+            "tests.snapshots.snap_new", str(filepath), config=config
+        )
+        module["test_snapshot"] = "new_value"
+
+        with pytest.raises(SnapshotError):
+            module.validate_before_close()
 
 
 class TestSnapshotModuleBeforeWriteCallback(object):

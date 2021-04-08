@@ -1,3 +1,4 @@
+import atexit
 import inspect
 import unittest
 
@@ -37,6 +38,12 @@ class UnitTestSnapshotTest(SnapshotTest):
 class TestCase(unittest.TestCase):
 
     snapshot_should_update = False
+    final_registered = False
+
+    @classmethod
+    def final(cls):
+        for module in SnapshotModule.get_modules():
+            module.validate_before_close()
 
     @classmethod
     def setUpClass(cls):
@@ -58,6 +65,10 @@ class TestCase(unittest.TestCase):
 
             cls.setUp = setUpOverride
             cls.tearDown = tearDownOverride
+
+        if not cls.final_registered:
+            atexit.register(cls.final)
+            cls.final_registered = True
 
         super(TestCase, cls).setUpClass()
 
