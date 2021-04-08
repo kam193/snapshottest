@@ -1,4 +1,3 @@
-import atexit
 import inspect
 import unittest
 
@@ -80,7 +79,7 @@ class TestCase(unittest.TestCase):
             cls.tearDown = tearDownOverride
 
         if not cls.final_registered:
-            atexit.register(cls.final)
+            setattr(unittest.TestResult, "stopTestRun", cls.final)
             cls.final_registered = True
 
         super(TestCase, cls).setUpClass()
@@ -118,3 +117,7 @@ class TestCase(unittest.TestCase):
         self._snapshot.assert_match(value, name=name)
 
     assertMatchSnapshot = assert_match_snapshot
+
+
+def tearDownModule():
+    print("module")
