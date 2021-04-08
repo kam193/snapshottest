@@ -8,6 +8,11 @@
 ### Breaking changes
 - Support for Python 3.8+ only
 
+### Maintenance & development
+- Introduce isort
+- Configure pre-commit hook
+- Remove commented out code
+
 ## 1.0.0a0
 
 ### BREAKING CHANGES
