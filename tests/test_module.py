@@ -1,9 +1,8 @@
-import imp
 import os
 
 import pytest
 
-from snapshottest import Snapshot, module
+from snapshottest import Snapshot
 from snapshottest.config import get_global_config
 from snapshottest.error import SnapshotError
 from snapshottest.module import SnapshotModule
