@@ -8,7 +8,7 @@ from typing import List
 
 from snapshottest.config import get_global_config
 
-from .error import SnapshotError, SnapshotNotFound
+from .error import SnapshotNotFound, UnvisitedSnapshotsLeftError
 from .formatter import Formatter
 from .snapshot import Snapshot
 
@@ -136,7 +136,7 @@ class SnapshotModule(object):
 
     def validate_before_close(self):
         if not self.config.getboolean("allow_unvisited") and self.unvisited_snapshots:
-            raise SnapshotError("There are unvisited snapshots")
+            raise UnvisitedSnapshotsLeftError()
 
     def save(self):
         if self.original_snapshot == self.snapshots:
@@ -278,9 +278,7 @@ class SnapshotTest(object):
                     self.store(value)  # first time this test has been seen
                 else:
                     self.fail()
-                    raise AssertionError(
-                        f"The snapshot for {self.test_name} doesn't exist."
-                    )
+                    raise
             else:
                 try:
                     self.assert_value_matches_snapshot(value, prev_snapshot)

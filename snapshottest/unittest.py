@@ -3,6 +3,7 @@ import inspect
 import unittest
 
 from .diff import PrettyDiff
+from .error import UnvisitedSnapshotsLeftError
 from .module import SnapshotModule, SnapshotTest
 from .reporting import diff_report
 
@@ -43,7 +44,19 @@ class TestCase(unittest.TestCase):
     @classmethod
     def final(cls):
         for module in SnapshotModule.get_modules():
-            module.validate_before_close()
+            try:
+                module.validate_before_close()
+            except UnvisitedSnapshotsLeftError:
+                # Temporary implementation to present the idea
+                if module.config.getboolean("list_unvisited"):
+                    print("-" * 80)
+                    print("Following snaphots left unvisited:")
+                    for _module in SnapshotModule.get_modules():
+                        unvisited = "\n".join(_module.unvisited_snapshots)
+                        if unvisited:
+                            print(unvisited)
+                    print("-" * 80)
+                raise
 
     @classmethod
     def setUpClass(cls):

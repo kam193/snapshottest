@@ -9,3 +9,8 @@ class SnapshotNotFound(SnapshotError):
                 snapshot_id=test_name, snapshot_file=module.filepath
             )
         )
+
+
+class UnvisitedSnapshotsLeftError(SnapshotError):
+    def __init__(self) -> None:
+        super().__init__("There are unvisited snapshots.")

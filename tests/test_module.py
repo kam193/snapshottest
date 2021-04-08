@@ -4,7 +4,7 @@ import pytest
 
 from snapshottest import Snapshot
 from snapshottest.config import get_global_config
-from snapshottest.error import SnapshotError
+from snapshottest.error import UnvisitedSnapshotsLeftError
 from snapshottest.module import SnapshotModule
 
 
@@ -75,7 +75,7 @@ class TestSnapshotModuleSaving:
         )
         module["test_snapshot"] = "new_value"
 
-        with pytest.raises(SnapshotError):
+        with pytest.raises(UnvisitedSnapshotsLeftError):
             module.validate_before_close()
 
 

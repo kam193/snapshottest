@@ -2,6 +2,7 @@ from collections import OrderedDict
 
 import pytest
 
+from snapshottest.error import SnapshotNotFound
 from snapshottest.module import SnapshotModule, SnapshotTest
 
 
@@ -138,5 +139,5 @@ def test_snapshot_with_disabled_creation(get_snapshot_test, make_config):
     config = make_config({"allow_create": False})
     snapshot_test: GenericSnapshotTest = get_snapshot_test(config)
 
-    with pytest.raises(AssertionError):
+    with pytest.raises(SnapshotNotFound):
         snapshot_test.assert_match("a value")

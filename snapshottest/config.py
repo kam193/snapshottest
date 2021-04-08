@@ -1,6 +1,6 @@
 from configparser import ConfigParser
 
-DEFAULTS = {"allow_create": True, "allow_unvisited": True}
+DEFAULTS = {"allow_create": True, "allow_unvisited": True, "list_unvisited": False}
 
 _config = None
 
